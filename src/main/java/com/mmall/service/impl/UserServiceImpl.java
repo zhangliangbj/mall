@@ -27,7 +27,7 @@ public class UserServiceImpl implements IUserService {
         }
         //密码登录MD5
         String md5Password = MD5Util.MD5EncodeUtf8(password);
-        User user = userMapper.selectLogin(username,password);
+        User user = userMapper.selectLogin(username,md5Password);
         if (user==null){
                 return ServerResponse.createByErrorMessage("密码错误");
         }
@@ -78,7 +78,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     public ServerResponse slectQuestion(String username){
-        ServerResponse validResponse = this.checkValid(username,Const.CURRENT_USER);
+        ServerResponse validResponse = this.checkValid(username,Const.USERNAME);
         if (validResponse.isSuccess()){
             //用户不存在
             return ServerResponse.createByErrorMessage("用户不存在");
@@ -105,7 +105,7 @@ public class UserServiceImpl implements IUserService {
         if (StringUtils.isBlank(forgetToken)){
             return ServerResponse.createByErrorMessage("参数错误，token需要传递");
         }
-        ServerResponse validResponse = this.checkValid(username,Const.CURRENT_USER);
+        ServerResponse validResponse = this.checkValid(username,Const.USERNAME);
         if (validResponse.isSuccess()){
             //用户不存在
             return ServerResponse.createByErrorMessage("用户不存在");
@@ -170,5 +170,18 @@ public class UserServiceImpl implements IUserService {
         }
         user.setPassword(StringUtils.EMPTY);
         return ServerResponse.createBySuccess(user);
+    }
+
+    /**
+     * 校验是否是管理员
+     * @param user
+     * @return
+     */
+    public ServerResponse checkAdminRole(User user){
+        if (user != null && user.getRole().intValue() == Const.Role.ROLE_ADMIN){
+            return ServerResponse.createBySuccess();
+        }
+        return ServerResponse.createByError();
+
     }
 }
