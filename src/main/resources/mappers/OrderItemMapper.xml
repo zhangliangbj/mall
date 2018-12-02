@@ -171,6 +171,12 @@
     and user_id = #{userId}
   </select>
 
+  <select id="getByOrderNo" resultMap="BaseResultMap" parameterType="map">
+    SELECT <include refid="Base_Column_List"/>
+    from mmall_order_item
+    WHERE order_no = #{orderNo}
+  </select>
+
   <insert id="batchInsert" parameterType="list">
      insert into mmall_order_item (id, order_no,user_id,
       product_id, product_name, product_image,
@@ -179,9 +185,11 @@
     values
     <foreach collection="orderItemList" index="index" item="item" separator=",">
       (
-      #{item.id},#{item.userId},#{item.orderNo},#{item.productId},#{item.productName},#{item.productImage},
+      #{item.id},#{item.orderNo},#{item.userId},#{item.productId},#{item.productName},#{item.productImage},
       #{item.currentUnitPrice},#{item.quantity},#{item.totalPrice},now(),now()
       )
     </foreach>
   </insert>
+
+
 </mapper>
