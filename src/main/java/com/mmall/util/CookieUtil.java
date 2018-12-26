@@ -28,8 +28,7 @@ public class CookieUtil {
         return null;
     }
 
-    //a:A.happymmall.com
-    //a:A.happymmall.com
+
 
 
 
