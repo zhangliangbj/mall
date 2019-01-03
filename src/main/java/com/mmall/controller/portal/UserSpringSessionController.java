@@ -53,7 +53,7 @@ public class UserSpringSessionController {
 //        CookieUtil.delLoginToken(httpServletRequest,httpServletResponse);
 //        RedisShardedPoolUtil.del(loginToken);
 
-        ;session.removeAttribute(Const.CURRENT_USER);
+        session.removeAttribute(Const.CURRENT_USER);
 
         return ServerResponse.createBySuccess();
     }
